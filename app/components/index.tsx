@@ -655,12 +655,12 @@ const Main: FC<IMainProps> = () => {
   if (!APP_ID || !APP_INFO || !promptConfig) { return <Loading type='app' /> }
 
   return (
-    <div className='bg-gray-100'>
+    <div className='bg-white'>
       <Header
         title={conversationName}
         onShowSideBar={showSidebar}
       />
-      <div className="flex rounded-t-2xl bg-white overflow-hidden">
+      <div className="flex bg-white overflow-hidden">
         {/* sidebar - always drawer overlay */}
         {isShowSidebar && (
           <div className='fixed inset-0 z-50' style={{ backgroundColor: 'rgba(0, 52, 127, 0.3)' }} onClick={hideSidebar} >
@@ -670,7 +670,7 @@ const Main: FC<IMainProps> = () => {
           </div>
         )}
         {/* main */}
-        <div className='flex-grow flex flex-col h-[calc(100vh_-_2.25rem)] overflow-y-auto'>
+        <div className='flex-grow flex flex-col h-[calc(100vh_-_2.25rem_-_env(safe-area-inset-top))] overflow-y-auto'>
           <ConfigSence
             conversationName={conversationName}
             hasSetInputs={hasSetInputs}
