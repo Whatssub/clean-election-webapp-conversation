@@ -81,7 +81,7 @@ const Welcome: FC<IWelcomeProps> = ({
 
   const renderHeader = () => {
     return (
-      <div className='absolute top-0 left-0 right-0 flex items-center justify-between border-b border-gray-100 mobile:h-12 tablet:h-16 px-8 bg-white'>
+      <div className='absolute top-0 left-0 right-0 flex items-center justify-between border-b border-gray-100 h-9 px-4 bg-white'>
         <div className='text-gray-900'>{conversationName}</div>
       </div>
     )
@@ -338,13 +338,13 @@ const Welcome: FC<IWelcomeProps> = ({
   }
 
   return (
-    <div className='relative mobile:min-h-[48px] tablet:min-h-[64px]'>
+    <div className='relative min-h-[36px]'>
       {hasSetInputs && renderHeader()}
-      <div className='mx-auto pc:w-[794px] max-w-full mobile:w-full px-3.5'>
+      <div className='mx-auto w-full max-w-2xl px-4'>
         {/*  Has't set inputs  */}
         {
           !hasSetInputs && (
-            <div className='mobile:pt-[72px] tablet:pt-[128px] pc:pt-[200px]'>
+            <div className='pt-16'>
               {hasVar
                 ? (
                   renderVarPanel()
