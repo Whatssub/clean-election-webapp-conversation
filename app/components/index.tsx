@@ -279,6 +279,10 @@ const Main: FC<IMainProps> = () => {
         if (isNotNewConversation) { setCurrConversationId(_conversationId, APP_ID, false) }
 
         setInited(true)
+
+        // prompt_variables가 없으면 Welcome 화면 없이 바로 채팅 시작
+        if (!isNotNewConversation && prompt_variables.length === 0)
+        { handleStartChat({}) }
       }
       catch (e: any) {
         if (e.status === 404) {
