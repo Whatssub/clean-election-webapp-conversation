@@ -178,10 +178,10 @@ const Answer: FC<IAnswerProps> = ({
 
   return (
     <div key={id}>
-      <div className="flex items-start">
-        <div className={`${s.answerWrap} max-w-full overflow-hidden`}>
+      <div className="flex justify-start">
+        <div className={`${s.answerWrap} max-w-[85%] overflow-hidden`}>
           <div className={`${s.answer} relative text-sm text-gray-900`}>
-            <div className="py-3 px-4 bg-[#F5F7FA] rounded-2xl max-w-full overflow-hidden">
+            <div className="py-3 px-4 bg-[#F5F7FA] rounded-2xl rounded-tl-sm max-w-full overflow-hidden">
               {workflowProcess && (
                 <WorkflowProcess data={workflowProcess} hideInfo />
               )}

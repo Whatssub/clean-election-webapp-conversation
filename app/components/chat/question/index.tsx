@@ -13,11 +13,11 @@ type IQuestionProps = Pick<IChatItem, 'id' | 'content'> & {
 
 const Question: FC<IQuestionProps> = ({ id, content, imgSrcs }) => {
   return (
-    <div className='flex items-start justify-end' key={id}>
-      <div>
+    <div className='flex justify-end' key={id}>
+      <div className="max-w-[85%]">
         <div className={`${s.question} relative text-sm text-white`}>
           <div
-            className={'py-3 px-4 bg-[#00347F] text-white rounded-2xl'}
+            className={'py-3 px-4 bg-[#00347F] text-white rounded-2xl rounded-tr-sm'}
           >
             {imgSrcs && imgSrcs.length > 0 && (
               <ImageGallery srcs={imgSrcs} />
