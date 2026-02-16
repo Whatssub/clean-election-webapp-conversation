@@ -7,6 +7,7 @@ const translation = {
   chat: {
     newChat: 'New chat',
     newChatDefaultName: 'New conversation',
+    inputPlaceholder: '질문을 입력하세요...',
     openingStatementTitle: 'Opening statement',
     powerBy: 'Powered by',
     prompt: 'Prompt',

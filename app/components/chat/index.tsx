@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react'
 import cn from 'classnames'
 import { useTranslation } from 'react-i18next'
 import Textarea from 'rc-textarea'
+import { ChatBubbleOvalLeftEllipsisIcon } from '@heroicons/react/24/outline'
 import s from './style.module.css'
 import Answer from './answer'
 import Question from './question'
@@ -145,6 +146,15 @@ const Chat: FC<IChatProps> = ({
     <div className={cn(!feedbackDisabled && 'px-3.5', 'h-full')}>
       {/* Chat List */}
       <div className="h-full space-y-[30px]">
+        {chatList.length === 0 && (
+          <div className="flex flex-col items-center justify-center h-full pb-[120px]">
+            <div className="w-14 h-14 rounded-full bg-primary-50 flex items-center justify-center mb-4">
+              <ChatBubbleOvalLeftEllipsisIcon className="h-7 w-7 text-primary-600" />
+            </div>
+            <p className="text-[15px] text-gray-800 font-medium mb-1">무엇이든 질문해보세요</p>
+            <p className="text-sm text-gray-400">아래 입력창에 질문을 입력하면 답변을 받을 수 있습니다</p>
+          </div>
+        )}
         {chatList.map((item) => {
           if (item.isAnswer) {
             const isLast = item.id === chatList[chatList.length - 1].id
@@ -207,7 +217,7 @@ const Chat: FC<IChatProps> = ({
               }
               <Textarea
                 className={`
-                  block w-full px-2 pr-[118px] py-[7px] leading-5 max-h-none text-base text-gray-700 outline-none appearance-none resize-none
+                  block w-full px-2 pr-[52px] py-[7px] leading-5 max-h-none text-base text-gray-700 outline-none appearance-none resize-none
                   ${visionConfig?.enabled && 'pl-12'}
                 `}
                 value={query}
@@ -215,9 +225,9 @@ const Chat: FC<IChatProps> = ({
                 onKeyUp={handleKeyUp}
                 onKeyDown={handleKeyDown}
                 autoSize
+                placeholder={t('app.chat.inputPlaceholder') || '질문을 입력하세요...'}
               />
-              <div className="absolute bottom-2 right-6 flex items-center h-8">
-                <div className={`${s.count} mr-3 h-5 leading-5 text-sm bg-gray-50 text-gray-500 px-2 rounded`}>{query.trim().length}</div>
+              <div className="absolute bottom-2 right-2 flex items-center h-8">
                 <Tooltip
                   selector='send-tip'
                   htmlContent={
