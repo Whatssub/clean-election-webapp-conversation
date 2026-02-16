@@ -12,7 +12,7 @@ const Header: FC<IHeaderProps> = ({
   onShowSideBar,
 }) => {
   return (
-    <div className="shrink-0 pt-[env(safe-area-inset-top)] bg-white border-b border-gray-200">
+    <div className="shrink-0 pt-[var(--app-inset-top)] bg-white border-b border-gray-200">
       <div className="flex items-center h-11 px-4">
         <button
           type="button"

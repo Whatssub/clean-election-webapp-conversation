@@ -692,7 +692,7 @@ const Main: FC<IMainProps> = () => {
           </div>
         )}
         {/* main */}
-        <div className='flex-grow flex flex-col h-[calc(100vh_-_2.75rem_-_env(safe-area-inset-top)_-_1px)] overflow-y-auto'>
+        <div className='flex-grow flex flex-col h-[calc(100vh_-_2.75rem_-_var(--app-inset-top)_-_1px)] overflow-y-auto'>
           <ConfigSence
             hasSetInputs={hasSetInputs}
             isPublicVersion={isShowPrompt}
