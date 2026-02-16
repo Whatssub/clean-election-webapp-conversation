@@ -162,7 +162,6 @@ const Chat: FC<IChatProps> = ({
               key={item.id}
               id={item.id}
               content={item.content}
-              useCurrentUserAvatar={useCurrentUserAvatar}
               imgSrcs={(item.message_files && item.message_files?.length > 0) ? item.message_files.map(item => item.url) : []}
             />
           )

@@ -1,6 +1,6 @@
 'use client'
 import type { FC } from 'react'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import produce, { setAutoFreeze } from 'immer'
 import { useBoolean, useGetState } from 'ahooks'
@@ -19,19 +19,25 @@ import useBreakpoints, { MediaType } from '@/hooks/use-breakpoints'
 import Loading from '@/app/components/base/loading'
 import { replaceVarWithValues, userInputsFormToPromptVariables } from '@/utils/prompt'
 import AppUnavailable from '@/app/components/app-unavailable'
-import { API_KEY, APP_ID, APP_INFO, isShowPrompt, promptTemplate } from '@/config'
+import { isShowPrompt, promptTemplate } from '@/config'
+import { useModeConfig } from '@/context/mode-context'
+import { setCurrentMode } from '@/service/base'
 import type { Annotation as AnnotationType } from '@/types/log'
 import { addFileInfos, sortAgentSorts } from '@/utils/tools'
 
-export interface IMainProps {
-  params: any
-}
+export interface IMainProps {}
 
 const Main: FC<IMainProps> = () => {
   const { t } = useTranslation()
   const media = useBreakpoints()
   const isMobile = media === MediaType.mobile
-  const hasSetAppConfig = APP_ID && API_KEY
+  const { mode, config } = useModeConfig()
+  const { appId, apiKey, appInfo } = config
+  const hasSetAppConfig = appId && apiKey
+
+  useEffect(() => {
+    setCurrentMode(mode)
+  }, [mode])
 
   /*
   * app info
@@ -40,8 +46,19 @@ const Main: FC<IMainProps> = () => {
   const [isUnknownReason, setIsUnknownReason] = useState<boolean>(false)
   const [promptConfig, setPromptConfig] = useState<PromptConfig | null>(null)
   const [inited, setInited] = useState<boolean>(false)
-  // in mobile, show sidebar by click button
-  const [isShowSidebar, { setTrue: showSidebar, setFalse: hideSidebar }] = useBoolean(false)
+  // in mobile, show sidebar with animation
+  const [sidebarMounted, setSidebarMounted] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const showSidebar = useCallback(() => {
+    setSidebarMounted(true)
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => setSidebarOpen(true))
+    })
+  }, [])
+  const hideSidebar = useCallback(() => {
+    setSidebarOpen(false)
+    setTimeout(() => setSidebarMounted(false), 300)
+  }, [])
   const [visionConfig, setVisionConfig] = useState<VisionSettings | undefined>({
     enabled: false,
     number_limits: 2,
@@ -51,8 +68,8 @@ const Main: FC<IMainProps> = () => {
   const [fileConfig, setFileConfig] = useState<FileUpload | undefined>()
 
   useEffect(() => {
-    if (APP_INFO?.title) { document.title = `${APP_INFO.title} - Powered by Dify` }
-  }, [APP_INFO?.title])
+    if (appInfo?.title) { document.title = `${appInfo.title}` }
+  }, [appInfo?.title])
 
   // onData change thought (the produce obj). https://github.com/immerjs/immer/issues/576
   useEffect(() => {
@@ -164,7 +181,7 @@ const Main: FC<IMainProps> = () => {
       setConversationIdChangeBecauseOfNew(false)
     }
     // trigger handleConversationSwitch
-    setCurrConversationId(id, APP_ID)
+    setCurrConversationId(id, appId)
     hideSidebar()
   }
 
@@ -236,13 +253,13 @@ const Main: FC<IMainProps> = () => {
           throw new Error(error)
           return
         }
-        const _conversationId = getConversationIdFromStorage(APP_ID)
+        const _conversationId = getConversationIdFromStorage(appId)
         const currentConversation = conversations.find(item => item.id === _conversationId)
         const isNotNewConversation = !!currentConversation
 
         // fetch new conversation info
         const { user_input_form, opening_statement: introduction, file_upload, system_parameters, suggested_questions = [] }: any = appParams
-        setLocaleOnClient(APP_INFO.default_language, true)
+        setLocaleOnClient(appInfo.default_language, true)
         setNewConversationInfo({
           name: t('app.chat.newChatDefaultName'),
           introduction,
@@ -276,7 +293,7 @@ const Main: FC<IMainProps> = () => {
         })
         setConversationList(conversations as ConversationItem[])
 
-        if (isNotNewConversation) { setCurrConversationId(_conversationId, APP_ID, false) }
+        if (isNotNewConversation) { setCurrConversationId(_conversationId, appId, false) }
 
         setInited(true)
 
@@ -475,7 +492,7 @@ const Main: FC<IMainProps> = () => {
         setConversationIdChangeBecauseOfNew(false)
         resetNewConversationInputs()
         setChatNotStarted()
-        setCurrConversationId(tempNewConversationId, APP_ID, true)
+        setCurrConversationId(tempNewConversationId, appId, true)
         setRespondingFalse()
       },
       onFile(file) {
@@ -639,43 +656,50 @@ const Main: FC<IMainProps> = () => {
   }
 
   const renderSidebar = () => {
-    if (!APP_ID || !APP_INFO || !promptConfig) { return null }
+    if (!appId || !appInfo || !promptConfig) { return null }
     return (
       <Sidebar
         list={conversationList}
         onCurrentIdChange={handleConversationIdChange}
         currentId={currConversationId}
-        copyRight={APP_INFO.copyright || APP_INFO.title}
+        copyRight={appInfo.copyright || appInfo.title}
       />
     )
   }
 
-  if (appUnavailable) { return <AppUnavailable isUnknownReason={isUnknownReason} errMessage={!hasSetAppConfig ? 'Please set APP_ID and API_KEY in config/index.tsx' : ''} /> }
+  if (appUnavailable) { return <AppUnavailable isUnknownReason={isUnknownReason} errMessage={!hasSetAppConfig ? 'Please set APP_ID and APP_KEY env vars for this mode' : ''} /> }
 
-  if (!APP_ID || !APP_INFO || !promptConfig) { return <Loading type='app' /> }
+  if (!appId || !appInfo || !promptConfig) { return <Loading type='app' /> }
 
   return (
     <div className='bg-white'>
       <Header
-        title={conversationName}
+        title={appInfo.title}
         onShowSideBar={showSidebar}
       />
       <div className="flex bg-white overflow-hidden">
-        {/* sidebar - always drawer overlay */}
-        {isShowSidebar && (
-          <div className='fixed inset-0 z-50' style={{ backgroundColor: 'rgba(0, 52, 127, 0.3)' }} onClick={hideSidebar} >
-            <div className='inline-block' onClick={e => e.stopPropagation()}>
+        {/* sidebar - drawer overlay with animation */}
+        {sidebarMounted && (
+          <div
+            className={`fixed inset-0 z-50 transition-opacity duration-300 ${sidebarOpen ? 'opacity-100' : 'opacity-0'}`}
+            style={{ backgroundColor: 'rgba(0, 52, 127, 0.3)' }}
+            onClick={hideSidebar}
+          >
+            <div
+              className={`inline-block transition-transform duration-300 ease-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
+              onClick={e => e.stopPropagation()}
+            >
               {renderSidebar()}
             </div>
           </div>
         )}
         {/* main */}
-        <div className='flex-grow flex flex-col h-[calc(100vh_-_2.25rem_-_env(safe-area-inset-top))] overflow-y-auto'>
+        <div className='flex-grow flex flex-col h-[calc(100vh_-_2.75rem_-_env(safe-area-inset-top)_-_1px)] overflow-y-auto'>
           <ConfigSence
             conversationName={conversationName}
             hasSetInputs={hasSetInputs}
             isPublicVersion={isShowPrompt}
-            siteInfo={APP_INFO}
+            siteInfo={appInfo}
             promptConfig={promptConfig}
             onStartChat={handleStartChat}
             canEditInputs={canEditInputs}

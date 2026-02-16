@@ -11,7 +11,7 @@ const LocaleLayout = async ({
   const locale = await getLocaleOnServer()
   return (
     <html lang={locale ?? 'en'} className="h-full">
-      <body className="h-full">
+      <body className="h-full font-pretendard">
         <div className="overflow-x-auto">
           <div className="w-screen h-screen min-w-[300px]">
             {children}

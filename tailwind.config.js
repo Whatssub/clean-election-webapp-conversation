@@ -1,3 +1,5 @@
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -7,6 +9,9 @@ module.exports = {
   theme: {
     typography: require('./typography'),
     extend: {
+      fontFamily: {
+        pretendard: ['Pretendard', ...defaultTheme.fontFamily.sans],
+      },
       colors: {
         gray: {
           50: '#F9FAFB',

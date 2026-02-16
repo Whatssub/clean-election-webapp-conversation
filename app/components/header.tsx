@@ -1,8 +1,6 @@
 import type { FC } from 'react'
 import React from 'react'
-import {
-  Bars3Icon,
-} from '@heroicons/react/24/solid'
+import { Bars3Icon } from '@heroicons/react/24/outline'
 
 export interface IHeaderProps {
   title: string
@@ -14,18 +12,19 @@ const Header: FC<IHeaderProps> = ({
   onShowSideBar,
 }) => {
   return (
-    <div className="shrink-0 pt-[env(safe-area-inset-top)]">
-      <div className="flex items-center justify-between h-9 px-3">
-        <div
-          className='flex items-center justify-center h-8 w-8 cursor-pointer rounded-lg hover:bg-gray-100'
+    <div className="shrink-0 pt-[env(safe-area-inset-top)] bg-white border-b border-gray-200">
+      <div className="flex items-center h-11 px-4">
+        <button
+          type="button"
+          className="flex items-center justify-center w-8 h-8 -ml-1 cursor-pointer"
           onClick={() => onShowSideBar?.()}
         >
-          <Bars3Icon className="h-4 w-4 text-gray-600" />
-        </div>
-        <div className='flex-1 text-center text-sm text-gray-900 font-medium truncate px-2'>
+          <Bars3Icon className="h-[22px] w-[22px] text-gray-700 stroke-[1.5]" />
+        </button>
+        <div className="flex-1 text-center text-[17px] text-gray-900 font-semibold truncate px-2">
           {title}
         </div>
-        <div className='w-8 h-8' />
+        <div className="w-8 h-8" />
       </div>
     </div>
   )
