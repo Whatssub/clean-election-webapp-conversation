@@ -115,7 +115,6 @@ const Main: FC<IMainProps> = () => {
     return isChatStarted
   })()
 
-  const conversationName = currConversationInfo?.name || t('app.chat.newChatDefaultName') as string
   const conversationIntroduction = currConversationInfo?.introduction || ''
   const suggestedQuestions = currConversationInfo?.suggested_questions || []
 
@@ -662,7 +661,6 @@ const Main: FC<IMainProps> = () => {
         list={conversationList}
         onCurrentIdChange={handleConversationIdChange}
         currentId={currConversationId}
-        copyRight={appInfo.copyright || appInfo.title}
       />
     )
   }
@@ -696,7 +694,6 @@ const Main: FC<IMainProps> = () => {
         {/* main */}
         <div className='flex-grow flex flex-col h-[calc(100vh_-_2.75rem_-_env(safe-area-inset-top)_-_1px)] overflow-y-auto'>
           <ConfigSence
-            conversationName={conversationName}
             hasSetInputs={hasSetInputs}
             isPublicVersion={isShowPrompt}
             siteInfo={appInfo}

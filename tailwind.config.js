@@ -10,6 +10,7 @@ module.exports = {
     typography: require('./typography'),
     extend: {
       fontFamily: {
+        sans: ['Pretendard', ...defaultTheme.fontFamily.sans],
         pretendard: ['Pretendard', ...defaultTheme.fontFamily.sans],
       },
       colors: {

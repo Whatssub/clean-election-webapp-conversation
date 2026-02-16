@@ -15,14 +15,12 @@ function classNames(...classes: any[]) {
 const MAX_CONVERSATION_LENTH = 20
 
 export interface ISidebarProps {
-  copyRight: string
   currentId: string
   onCurrentIdChange: (id: string) => void
   list: ConversationItem[]
 }
 
 const Sidebar: FC<ISidebarProps> = ({
-  copyRight,
   currentId,
   onCurrentIdChange,
   list,
@@ -74,9 +72,6 @@ const Sidebar: FC<ISidebarProps> = ({
           )
         })}
       </nav>
-      <div className="flex flex-shrink-0 pr-4 pb-4 pl-4">
-        <div className="text-gray-400 font-normal text-xs">© {copyRight} {(new Date()).getFullYear()}</div>
-      </div>
     </div>
   )
 }

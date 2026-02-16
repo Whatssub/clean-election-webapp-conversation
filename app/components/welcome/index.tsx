@@ -15,7 +15,6 @@ import { DEFAULT_VALUE_MAX_LEN } from '@/config'
 const regex = /\{\{([^}]+)\}\}/g
 
 export interface IWelcomeProps {
-  conversationName: string
   hasSetInputs: boolean
   isPublicVersion: boolean
   siteInfo: AppInfo
@@ -27,7 +26,6 @@ export interface IWelcomeProps {
 }
 
 const Welcome: FC<IWelcomeProps> = ({
-  conversationName,
   hasSetInputs,
   isPublicVersion,
   siteInfo,
@@ -77,14 +75,6 @@ const Welcome: FC<IWelcomeProps> = ({
   const { notify } = Toast
   const logError = (message: string) => {
     notify({ type: 'error', message, duration: 3000 })
-  }
-
-  const renderHeader = () => {
-    return (
-      <div className='absolute top-0 left-0 right-0 flex items-center justify-between border-b border-gray-100 h-9 px-4 bg-white'>
-        <div className='text-gray-900'>{conversationName}</div>
-      </div>
-    )
   }
 
   const renderInputs = () => {
