@@ -12,7 +12,7 @@ declare global {
   }
 }
 
-const ESTIMATED_TAB_BAR_HEIGHT = 49
+const ESTIMATED_TAB_BAR_HEIGHT = 65
 
 /**
  * Detects safe area insets from native bridge, URL params, or webview context,
