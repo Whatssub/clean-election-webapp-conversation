@@ -20,6 +20,7 @@ export interface ISidebarProps {
   onCurrentIdChange: (id: string) => void
   onClose?: () => void
   list: ConversationItem[]
+  title?: string
 }
 
 const Sidebar: FC<ISidebarProps> = ({
@@ -27,8 +28,10 @@ const Sidebar: FC<ISidebarProps> = ({
   onCurrentIdChange,
   onClose,
   list,
+  title,
 }) => {
   const { t } = useTranslation()
+  const conversationCount = list.filter(item => item.id !== '-1').length
   return (
     <div
       className="shrink-0 flex flex-col bg-white w-[280px] h-screen shadow-xl"
@@ -36,9 +39,16 @@ const Sidebar: FC<ISidebarProps> = ({
       {/* Header with safe area */}
       <div className="shrink-0 pt-[var(--app-inset-top)] border-b border-gray-100">
         <div className="flex items-center justify-between px-4 h-12">
-          <span className="text-gray-900 font-semibold text-[15px]">
-            {t('app.chat.newChat')}
-          </span>
+          <div className="flex items-baseline gap-2 min-w-0">
+            <span className="text-gray-900 font-semibold text-[15px] truncate">
+              {title || t('app.chat.newChat')}
+            </span>
+            {conversationCount > 0 && (
+              <span className="text-xs text-gray-400 shrink-0">
+                {conversationCount}개의 대화
+              </span>
+            )}
+          </div>
           <div className="flex items-center gap-1">
             {list.length < MAX_CONVERSATION_LENTH && (
               <button

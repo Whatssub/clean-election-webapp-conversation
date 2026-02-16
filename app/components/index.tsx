@@ -662,6 +662,7 @@ const Main: FC<IMainProps> = () => {
         onCurrentIdChange={handleConversationIdChange}
         currentId={currConversationId}
         onClose={hideSidebar}
+        title={appInfo.title}
       />
     )
   }
