@@ -17,7 +17,7 @@ const Question: FC<IQuestionProps> = ({ id, content, imgSrcs }) => {
       <div className="max-w-[85%]">
         <div className={`${s.question} relative text-sm text-white`}>
           <div
-            className={'py-3 px-4 bg-[#00347F] text-white rounded-2xl rounded-tr-sm'}
+            className={'py-3 px-4 bg-[#00347F] text-white rounded-2xl'}
           >
             {imgSrcs && imgSrcs.length > 0 && (
               <ImageGallery srcs={imgSrcs} />
