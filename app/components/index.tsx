@@ -661,6 +661,7 @@ const Main: FC<IMainProps> = () => {
         list={conversationList}
         onCurrentIdChange={handleConversationIdChange}
         currentId={currConversationId}
+        onClose={hideSidebar}
       />
     )
   }
@@ -680,7 +681,7 @@ const Main: FC<IMainProps> = () => {
         {sidebarMounted && (
           <div
             className={`fixed inset-0 z-50 transition-opacity duration-300 ${sidebarOpen ? 'opacity-100' : 'opacity-0'}`}
-            style={{ backgroundColor: 'rgba(0, 52, 127, 0.3)' }}
+            style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }}
             onClick={hideSidebar}
           >
             <div
