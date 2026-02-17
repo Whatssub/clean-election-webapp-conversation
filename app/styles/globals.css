@@ -71,6 +71,10 @@
   /* Safe area insets — overridden by JS in webview contexts */
   --app-inset-top: env(safe-area-inset-top, 0px);
   --app-inset-bottom: env(safe-area-inset-bottom, 0px);
+
+  /* Keyboard handling — dynamically updated by useKeyboardHeight hook */
+  --keyboard-height: 0px;
+  --input-bar-bottom-offset: var(--app-inset-bottom);
 }
 
 /* @media (prefers-color-scheme: dark) {
