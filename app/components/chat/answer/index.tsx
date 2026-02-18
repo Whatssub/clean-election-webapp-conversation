@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next'
 import Button from '@/app/components/base/button'
 import StreamdownMarkdown from '@/app/components/base/streamdown-markdown'
 import Tooltip from '@/app/components/base/tooltip'
-import WorkflowProcess from '@/app/components/workflow/workflow-process'
 import { randomString } from '@/utils/string'
 import ImageGallery from '../../base/image-gallery'
 import LoadingAnim from '../loading-anim'
@@ -182,9 +181,7 @@ const Answer: FC<IAnswerProps> = ({
         <div className={`${s.answerWrap} max-w-[85%] overflow-hidden`}>
           <div className={`${s.answer} relative text-sm text-gray-900`}>
             <div className="py-3 px-4 bg-[#F5F7FA] rounded-2xl max-w-full overflow-hidden">
-              {workflowProcess && (
-                <WorkflowProcess data={workflowProcess} hideInfo />
-              )}
+              {/* workflow process hidden from end-users */}
               {(isResponding && (isAgentMode ? (!content && (agent_thoughts || []).filter(item => !!item.thought || !!item.tool).length === 0) : !content))
                 ? (
                   <div className="flex items-center justify-center w-6 h-5">

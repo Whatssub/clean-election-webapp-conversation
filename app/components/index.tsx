@@ -677,7 +677,6 @@ const Main: FC<IMainProps> = () => {
         title={appInfo.title}
         onShowSideBar={showSidebar}
       />
-      <p className="text-center text-xs text-gray-400 py-2">AI가 생성한 응답은 부정확할 수 있습니다</p>
       <div className="flex bg-white overflow-hidden">
         {/* sidebar - drawer overlay with animation */}
         {sidebarMounted && (
@@ -695,7 +694,7 @@ const Main: FC<IMainProps> = () => {
           </div>
         )}
         {/* main */}
-        <div className='flex-grow flex flex-col h-[calc(100vh_-_2.75rem_-_2rem_-_var(--app-inset-top)_-_1px)] overflow-y-auto'>
+        <div className='flex-grow flex flex-col h-[calc(100vh_-_2.75rem_-_var(--app-inset-top)_-_1px)] overflow-y-auto'>
           <ConfigSence
             hasSetInputs={hasSetInputs}
             isPublicVersion={isShowPrompt}
