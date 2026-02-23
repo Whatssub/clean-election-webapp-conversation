@@ -137,7 +137,7 @@ const Chat: FC<IChatProps> = ({
   return (
     <div className="h-full">
       {/* Chat List */}
-      <div className="h-full flex flex-col gap-2">
+      <div className="h-full flex flex-col">
         {chatList.length === 0 && (
           <div className="flex flex-col items-center justify-center h-full pb-[120px]">
             <div className="w-14 h-14 rounded-full bg-primary-50 flex items-center justify-center mb-4">
@@ -148,26 +148,34 @@ const Chat: FC<IChatProps> = ({
           </div>
         )}
         {chatList.map((item, index) => {
+          const prevItem = index > 0 ? chatList[index - 1] : null
+          const nextItem = index < chatList.length - 1 ? chatList[index + 1] : null
+          const isGroupStart = !prevItem || (!!prevItem.isAnswer) !== (!!item.isAnswer)
+          const isGroupEnd = !nextItem || (!!nextItem.isAnswer) !== (!!item.isAnswer)
+
           if (item.isAnswer) {
             const isLast = item.id === chatList[chatList.length - 1].id
-            const prevItem = index > 0 ? chatList[index - 1] : null
             const showAvatar = !prevItem || !prevItem.isAnswer
-            return <Answer
-              key={item.id}
-              item={item}
-              feedbackDisabled={feedbackDisabled}
-              onFeedback={onFeedback}
-              isResponding={isResponding && isLast}
-              showAvatar={showAvatar}
-            />
+            return (
+              <div key={item.id} className={`${isGroupStart ? 'pt-2' : ''} ${isGroupEnd ? 'pb-2' : ''}`}>
+                <Answer
+                  item={item}
+                  feedbackDisabled={feedbackDisabled}
+                  onFeedback={onFeedback}
+                  isResponding={isResponding && isLast}
+                  showAvatar={showAvatar}
+                />
+              </div>
+            )
           }
           return (
-            <Question
-              key={item.id}
-              id={item.id}
-              content={item.content}
-              imgSrcs={(item.message_files && item.message_files?.length > 0) ? item.message_files.map(item => item.url) : []}
-            />
+            <div key={item.id} className={`${isGroupStart ? 'pt-2' : ''} ${isGroupEnd ? 'pb-2' : ''}`}>
+              <Question
+                id={item.id}
+                content={item.content}
+                imgSrcs={(item.message_files && item.message_files?.length > 0) ? item.message_files.map(item => item.url) : []}
+              />
+            </div>
           )
         })}
       </div>
