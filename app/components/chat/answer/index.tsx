@@ -12,8 +12,8 @@ import Thought from '../thought'
 
 function AgentAvatar() {
   return (
-    <div className="w-8 h-8 rounded-full bg-[#003e99] flex items-center justify-center">
-      <span className="text-white text-xs font-semibold">AI</span>
+    <div className="w-8 h-8 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center">
+      <span className="text-[#003e99] text-xs font-semibold">AI</span>
     </div>
   )
 }
