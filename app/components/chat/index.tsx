@@ -183,12 +183,12 @@ const Chat: FC<IChatProps> = ({
                     <button
                       key={i}
                       type="button"
-                      className="shrink-0 flex items-center gap-1 px-[15px] py-2 rounded-full border border-gray-200 bg-white text-[14px] leading-[22px] font-semibold whitespace-nowrap cursor-pointer hover:bg-gray-50 active:bg-gray-100 transition-colors"
+                      className="shrink-0 flex items-center gap-1 px-[15px] py-2 rounded-[18px] bg-white text-[15px] leading-[22px] font-medium whitespace-nowrap cursor-pointer hover:bg-gray-50 active:bg-gray-100 transition-colors"
                       style={{ color: 'rgba(0, 8, 16, 0.898)' }}
                       onClick={() => suggestionClick(q)}
                     >
                       <span>{q}</span>
-                      <ChevronRightIcon className="w-3.5 h-3.5 text-gray-400" />
+                      <ChevronRightIcon className="w-3.5 h-3.5 text-primary-600" />
                     </button>
                   ))}
                 </div>

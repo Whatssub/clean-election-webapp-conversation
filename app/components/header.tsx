@@ -12,14 +12,14 @@ const Header: FC<IHeaderProps> = ({
   onDelete,
 }) => {
   return (
-    <div className="shrink-0 pt-[var(--app-inset-top)] bg-white">
+    <div className="shrink-0 pt-[var(--app-inset-top)] bg-transparent">
       <div className="flex items-center justify-between h-11 px-4">
         <button
           type="button"
           className="flex items-center justify-center w-8 h-8 -ml-1 cursor-pointer"
           onClick={() => onBack?.()}
         >
-          <ChevronLeftIcon className="h-6 w-6 text-gray-900 stroke-[2]" />
+          <ChevronLeftIcon className="h-6 w-6 text-[#0068ff] stroke-[2]" />
         </button>
         <button
           type="button"

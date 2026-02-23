@@ -692,12 +692,12 @@ const Main: FC<IMainProps> = () => {
   if (!appId || !appInfo || !promptConfig) { return <Loading type='app' /> }
 
   return (
-    <div className='bg-white'>
+    <div className='bg-indigo-25'>
       <Header
         onBack={() => console.log('back')}
         onDelete={() => console.log('delete')}
       />
-      <div className="flex bg-white overflow-hidden">
+      <div className="flex bg-indigo-25 overflow-hidden">
         {/* sidebar - drawer overlay with animation */}
         {sidebarMounted && (
           <div
@@ -717,8 +717,8 @@ const Main: FC<IMainProps> = () => {
         <div className='flex-grow flex flex-col h-[calc(100vh_-_2.75rem_-_var(--app-inset-top))] overflow-y-auto'>
           {/* Section header - conversation date */}
           {hasSetInputs && (
-            <div className="shrink-0 flex items-center justify-center h-[51px] bg-white">
-              <span className="text-sm text-gray-400">
+            <div className="shrink-0 px-5 pt-6 pb-1">
+              <span className="text-[14px] font-semibold leading-[22.4px] tracking-[0.28px]" style={{ color: 'rgba(0, 20, 40, 0.5)' }}>
                 {conversationDateStr}
               </span>
             </div>
@@ -737,7 +737,7 @@ const Main: FC<IMainProps> = () => {
 
           {
             hasSetInputs && (
-              <div className='relative grow w-full px-3 pb-[180px] mx-auto mb-3.5' ref={chatListDomRef}>
+              <div className='relative grow w-full px-5 pb-[180px] mx-auto mb-3.5' ref={chatListDomRef}>
                 <Chat
                   chatList={chatList}
                   onSend={handleSend}
