@@ -1,6 +1,6 @@
 'use client'
 import type { FC } from 'react'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import produce, { setAutoFreeze } from 'immer'
 import { useBoolean, useGetState } from 'ahooks'
@@ -49,7 +49,7 @@ const Main: FC<IMainProps> = () => {
   // in mobile, show sidebar with animation
   const [sidebarMounted, setSidebarMounted] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const showSidebar = useCallback(() => {
+  const _showSidebar = useCallback(() => {
     setSidebarMounted(true)
     requestAnimationFrame(() => {
       requestAnimationFrame(() => setSidebarOpen(true))
@@ -341,6 +341,26 @@ const Main: FC<IMainProps> = () => {
   const [hasStopResponded, setHasStopResponded, getHasStopResponded] = useGetState(false)
   const [isRespondingConIsCurrCon, setIsRespondingConCurrCon, getIsRespondingConIsCurrCon] = useGetState(true)
   const [userQuery, setUserQuery] = useState('')
+
+  // Extract the latest suggested questions from chatList for the input area
+  const activeSuggestedQuestions = useMemo(() => {
+    const lastAnswer = [...chatList].reverse().find(item => item.isAnswer && item.suggestedQuestions && item.suggestedQuestions.length > 0)
+    return lastAnswer?.suggestedQuestions || []
+  }, [chatList])
+
+  // Format conversation date for section header
+  const conversationDateStr = useMemo(() => {
+    // Try to get created_at from the current conversation
+    const currentConv = conversationList.find(item => item.id === currConversationId)
+    const timestamp = currentConv?.created_at
+    if (timestamp) {
+      const d = new Date(timestamp * 1000)
+      return `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일 ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:${String(d.getSeconds()).padStart(2, '0')}`
+    }
+    // Fallback: use current time for new conversations
+    const d = new Date()
+    return `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일 ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:${String(d.getSeconds()).padStart(2, '0')}`
+  }, [conversationList, currConversationId])
 
   const updateCurrentQA = ({
     responseItem,
@@ -674,8 +694,8 @@ const Main: FC<IMainProps> = () => {
   return (
     <div className='bg-white'>
       <Header
-        title={appInfo.title}
-        onShowSideBar={showSidebar}
+        onBack={() => console.log('back')}
+        onDelete={() => console.log('delete')}
       />
       <div className="flex bg-white overflow-hidden">
         {/* sidebar - drawer overlay with animation */}
@@ -694,7 +714,16 @@ const Main: FC<IMainProps> = () => {
           </div>
         )}
         {/* main */}
-        <div className='flex-grow flex flex-col h-[calc(100vh_-_2.75rem_-_var(--app-inset-top)_-_1px)] overflow-y-auto'>
+        <div className='flex-grow flex flex-col h-[calc(100vh_-_2.75rem_-_var(--app-inset-top))] overflow-y-auto'>
+          {/* Section header - conversation date */}
+          {hasSetInputs && (
+            <div className="shrink-0 flex items-center justify-center h-[51px] bg-white">
+              <span className="text-sm text-gray-400">
+                {conversationDateStr}
+              </span>
+            </div>
+          )}
+
           <ConfigSence
             hasSetInputs={hasSetInputs}
             isPublicVersion={isShowPrompt}
@@ -708,7 +737,7 @@ const Main: FC<IMainProps> = () => {
 
           {
             hasSetInputs && (
-              <div className='relative grow w-full px-4 pb-[180px] mx-auto mb-3.5' ref={chatListDomRef}>
+              <div className='relative grow w-full px-3 pb-[180px] mx-auto mb-3.5' ref={chatListDomRef}>
                 <Chat
                   chatList={chatList}
                   onSend={handleSend}
@@ -717,6 +746,7 @@ const Main: FC<IMainProps> = () => {
                   checkCanSend={checkCanSend}
                   visionConfig={visionConfig}
                   fileConfig={fileConfig}
+                  suggestedQuestions={activeSuggestedQuestions}
                 />
               </div>)
           }

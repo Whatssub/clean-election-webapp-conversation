@@ -1,30 +1,33 @@
 import type { FC } from 'react'
 import React from 'react'
-import { Bars3Icon } from '@heroicons/react/24/outline'
+import { ChevronLeftIcon } from '@heroicons/react/24/outline'
 
 export interface IHeaderProps {
-  title: string
-  onShowSideBar?: () => void
+  onBack?: () => void
+  onDelete?: () => void
 }
 
 const Header: FC<IHeaderProps> = ({
-  title,
-  onShowSideBar,
+  onBack,
+  onDelete,
 }) => {
   return (
-    <div className="shrink-0 pt-[var(--app-inset-top)] bg-white border-b border-gray-200">
-      <div className="flex items-center h-11 px-4">
+    <div className="shrink-0 pt-[var(--app-inset-top)] bg-white">
+      <div className="flex items-center justify-between h-11 px-4">
         <button
           type="button"
           className="flex items-center justify-center w-8 h-8 -ml-1 cursor-pointer"
-          onClick={() => onShowSideBar?.()}
+          onClick={() => onBack?.()}
         >
-          <Bars3Icon className="h-[22px] w-[22px] text-gray-700 stroke-[1.5]" />
+          <ChevronLeftIcon className="h-6 w-6 text-gray-900 stroke-[2]" />
         </button>
-        <div className="flex-1 text-center text-[17px] text-gray-900 font-semibold truncate px-2">
-          {title}
-        </div>
-        <div className="w-8 h-8" />
+        <button
+          type="button"
+          className="text-[15px] text-[#0068ff] font-medium cursor-pointer"
+          onClick={() => onDelete?.()}
+        >
+          삭제
+        </button>
       </div>
     </div>
   )

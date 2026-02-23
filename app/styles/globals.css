@@ -134,6 +134,16 @@ a {
   }
 } */
 
+/* Scrollbar hide utility */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* CSS Utils */
 .h1 {
   padding-bottom: 1.5rem;
