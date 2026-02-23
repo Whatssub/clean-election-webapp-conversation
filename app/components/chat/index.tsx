@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import Textarea from 'rc-textarea'
 import { ChatBubbleOvalLeftEllipsisIcon } from '@heroicons/react/24/outline'
-import { ArrowUpIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
+import { ChevronRightIcon } from '@heroicons/react/24/solid'
 import Answer from './answer'
 import Question from './question'
 import type { FeedbackFunc } from './type'
@@ -207,7 +207,7 @@ const Chat: FC<IChatProps> = ({
               )}
               {/* Input field */}
               <div className="px-5 pb-[env(safe-area-inset-bottom,0px)]">
-                <div className="flex items-end gap-2 py-3 px-4 rounded-2xl" style={{ backgroundColor: 'rgba(0, 34, 68, 0.07)', border: '1px solid rgba(0, 36, 72, 0.04)' }}>
+                <div className="flex items-center gap-2 py-3 px-4 rounded-2xl" style={{ backgroundColor: 'rgba(0, 34, 68, 0.07)', border: '1px solid rgba(0, 36, 72, 0.04)' }}>
                   {
                     visionConfig?.enabled && (
                       <div className="flex items-center shrink-0 pb-0.5">
@@ -245,7 +245,7 @@ const Chat: FC<IChatProps> = ({
                       )
                     }
                     <Textarea
-                      className="block w-full py-1 leading-5 max-h-[100px] text-[15px] text-gray-900 outline-none appearance-none resize-none bg-transparent"
+                      className="block w-full py-1 leading-[27.2px] max-h-[100px] text-[17px] tracking-[0.34px] text-gray-900 outline-none appearance-none resize-none bg-transparent placeholder:text-[rgba(0,20,40,0.5)]"
                       value={query}
                       onChange={handleContentChange}
                       onKeyUp={handleKeyUp}
@@ -257,11 +257,13 @@ const Chat: FC<IChatProps> = ({
                   {/* Send button */}
                   <button
                     type="button"
-                    className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-[#003e99] cursor-pointer hover:opacity-90 active:opacity-80 transition-opacity disabled:opacity-30 disabled:cursor-not-allowed"
+                    className="shrink-0 cursor-pointer hover:opacity-90 active:opacity-80 transition-opacity disabled:opacity-30 disabled:cursor-not-allowed"
                     onClick={handleSend}
                     disabled={!query.trim()}
                   >
-                    <ArrowUpIcon className="w-4 h-4 text-white" />
+                    <svg className="w-8 h-8 text-[#0068ff]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fillRule="evenodd" clipRule="evenodd" d="M21.5 12C21.5 6.75329 17.2467 2.5 12 2.5C6.75329 2.5 2.5 6.75329 2.5 12C2.5 17.2467 6.75329 21.5 12 21.5C17.2467 21.5 21.5 17.2467 21.5 12ZM12.7507 7.07741L12.6831 7.01666C12.3558 6.75342 11.8759 6.77367 11.5722 7.07741L7.5722 11.0774L7.51145 11.1451C7.24821 11.4723 7.26846 11.9522 7.5722 12.2559L7.63987 12.3167C7.96709 12.5799 8.44697 12.5597 8.75071 12.2559L11.3281 9.678V16.3333L11.3324 16.4185C11.3751 16.8388 11.73 17.1667 12.1615 17.1667C12.6217 17.1667 12.9948 16.7936 12.9948 16.3333V9.678L15.5722 12.2559L15.6399 12.3167C15.9671 12.5799 16.447 12.5597 16.7507 12.2559C17.0762 11.9305 17.0762 11.4028 16.7507 11.0774L12.7507 7.07741Z" fill="currentColor" />
+                    </svg>
                   </button>
                 </div>
               </div>
