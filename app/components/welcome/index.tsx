@@ -328,7 +328,7 @@ const Welcome: FC<IWelcomeProps> = ({
   }
 
   return (
-    <div className='relative min-h-[36px]'>
+    <div className='relative'>
       {/* header removed - mode title shown in main Header */}
       <div className='mx-auto w-full max-w-2xl px-4'>
         {/*  Has't set inputs  */}
