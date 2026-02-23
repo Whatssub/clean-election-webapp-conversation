@@ -174,84 +174,88 @@ const Chat: FC<IChatProps> = ({
       {/* Fixed bottom input area */}
       {
         !isHideSendInput && (
-          <div className="fixed z-10 bottom-0 left-0 right-0 w-full bg-white">
-            {/* Suggested question chips */}
-            {suggestedQuestions.length > 0 && !isResponding && (
-              <div className="px-5 pb-2">
-                <div className="flex gap-3 overflow-x-auto scrollbar-hide">
-                  {suggestedQuestions.map((q, i) => (
-                    <button
-                      key={i}
-                      type="button"
-                      className="shrink-0 flex items-center gap-1 px-[15px] py-2 rounded-[18px] bg-white text-[15px] leading-[22px] font-medium whitespace-nowrap cursor-pointer hover:bg-gray-50 active:bg-gray-100 transition-colors"
-                      style={{ color: 'rgba(0, 8, 16, 0.898)' }}
-                      onClick={() => suggestionClick(q)}
-                    >
-                      <span>{q}</span>
-                      <ChevronRightIcon className="w-3.5 h-3.5 text-primary-600" />
-                    </button>
-                  ))}
+          <div className="fixed z-10 bottom-0 left-0 right-0 w-full">
+            {/* Top gradient fade */}
+            <div className="h-4 bg-gradient-to-b from-transparent to-white pointer-events-none" />
+            <div className="bg-white">
+              {/* Suggested question chips */}
+              {suggestedQuestions.length > 0 && !isResponding && (
+                <div className="px-5 pb-2">
+                  <div className="flex gap-3 overflow-x-auto scrollbar-hide">
+                    {suggestedQuestions.map((q, i) => (
+                      <button
+                        key={i}
+                        type="button"
+                        className="shrink-0 flex items-center gap-1 px-[15px] py-2 rounded-[18px] bg-white text-[15px] leading-[22px] font-medium whitespace-nowrap cursor-pointer hover:bg-gray-50 active:bg-gray-100 transition-colors"
+                        style={{ color: 'rgba(0, 8, 16, 0.898)' }}
+                        onClick={() => suggestionClick(q)}
+                      >
+                        <span>{q}</span>
+                        <ChevronRightIcon className="w-3.5 h-3.5 text-primary-600" />
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
-            {/* Input field */}
-            <div className="px-5 pb-[env(safe-area-inset-bottom,0px)]">
-              <div className="flex items-end gap-2 py-3 px-4 rounded-2xl" style={{ backgroundColor: 'rgba(0, 34, 68, 0.07)', border: '1px solid rgba(0, 36, 72, 0.04)' }}>
-                {
-                  visionConfig?.enabled && (
-                    <div className="flex items-center shrink-0 pb-0.5">
-                      <ChatImageUploader
-                        settings={visionConfig}
-                        onUpload={onUpload}
-                        disabled={files.length >= visionConfig.number_limits}
-                      />
-                    </div>
-                  )
-                }
-                <div className="flex-1 min-w-0">
+              )}
+              {/* Input field */}
+              <div className="px-5 pb-[env(safe-area-inset-bottom,0px)]">
+                <div className="flex items-end gap-2 py-3 px-4 rounded-2xl" style={{ backgroundColor: 'rgba(0, 34, 68, 0.07)', border: '1px solid rgba(0, 36, 72, 0.04)' }}>
                   {
-                    visionConfig?.enabled && files.length > 0 && (
-                      <div className="mb-1">
-                        <ImageList
-                          list={files}
-                          onRemove={onRemove}
-                          onReUpload={onReUpload}
-                          onImageLinkLoadSuccess={onImageLinkLoadSuccess}
-                          onImageLinkLoadError={onImageLinkLoadError}
+                    visionConfig?.enabled && (
+                      <div className="flex items-center shrink-0 pb-0.5">
+                        <ChatImageUploader
+                          settings={visionConfig}
+                          onUpload={onUpload}
+                          disabled={files.length >= visionConfig.number_limits}
                         />
                       </div>
                     )
                   }
-                  {
-                    fileConfig?.enabled && (
-                      <div className="mb-1">
-                        <FileUploaderInAttachmentWrapper
-                          fileConfig={fileConfig}
-                          value={attachmentFiles}
-                          onChange={setAttachmentFiles}
-                        />
-                      </div>
-                    )
-                  }
-                  <Textarea
-                    className="block w-full py-1 leading-5 max-h-[100px] text-[15px] text-gray-900 outline-none appearance-none resize-none bg-transparent"
-                    value={query}
-                    onChange={handleContentChange}
-                    onKeyUp={handleKeyUp}
-                    onKeyDown={handleKeyDown}
-                    autoSize
-                    placeholder="선거에 관해 무엇이든 물어보세요"
-                  />
+                  <div className="flex-1 min-w-0">
+                    {
+                      visionConfig?.enabled && files.length > 0 && (
+                        <div className="mb-1">
+                          <ImageList
+                            list={files}
+                            onRemove={onRemove}
+                            onReUpload={onReUpload}
+                            onImageLinkLoadSuccess={onImageLinkLoadSuccess}
+                            onImageLinkLoadError={onImageLinkLoadError}
+                          />
+                        </div>
+                      )
+                    }
+                    {
+                      fileConfig?.enabled && (
+                        <div className="mb-1">
+                          <FileUploaderInAttachmentWrapper
+                            fileConfig={fileConfig}
+                            value={attachmentFiles}
+                            onChange={setAttachmentFiles}
+                          />
+                        </div>
+                      )
+                    }
+                    <Textarea
+                      className="block w-full py-1 leading-5 max-h-[100px] text-[15px] text-gray-900 outline-none appearance-none resize-none bg-transparent"
+                      value={query}
+                      onChange={handleContentChange}
+                      onKeyUp={handleKeyUp}
+                      onKeyDown={handleKeyDown}
+                      autoSize
+                      placeholder="선거에 관해 무엇이든 물어보세요"
+                    />
+                  </div>
+                  {/* Send button */}
+                  <button
+                    type="button"
+                    className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-[#003e99] cursor-pointer hover:opacity-90 active:opacity-80 transition-opacity disabled:opacity-30 disabled:cursor-not-allowed"
+                    onClick={handleSend}
+                    disabled={!query.trim()}
+                  >
+                    <ArrowUpIcon className="w-4 h-4 text-white" />
+                  </button>
                 </div>
-                {/* Send button */}
-                <button
-                  type="button"
-                  className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-[#003e99] cursor-pointer hover:opacity-90 active:opacity-80 transition-opacity disabled:opacity-30 disabled:cursor-not-allowed"
-                  onClick={handleSend}
-                  disabled={!query.trim()}
-                >
-                  <ArrowUpIcon className="w-4 h-4 text-white" />
-                </button>
               </div>
             </div>
           </div>
