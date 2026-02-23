@@ -717,7 +717,7 @@ const Main: FC<IMainProps> = () => {
         <div className='flex-grow flex flex-col h-[calc(100vh_-_2.75rem_-_var(--app-inset-top))] overflow-y-auto'>
           {/* Section header - conversation date */}
           {hasSetInputs && (
-            <div className="shrink-0 px-5 pt-6 pb-1">
+            <div className="shrink-0 px-5 pt-2 pb-1">
               <span className="text-[14px] font-semibold leading-[22.4px] tracking-[0.28px]" style={{ color: 'rgba(0, 20, 40, 0.5)' }}>
                 {conversationDateStr}
               </span>
