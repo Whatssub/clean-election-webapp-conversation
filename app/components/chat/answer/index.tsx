@@ -18,6 +18,13 @@ function AgentAvatar() {
   )
 }
 
+function splitIntoParagraphs(text: string): string[] {
+  if (!text) { return [text || ''] }
+  if (text.includes('```')) { return [text] }
+  const parts = text.split(/\n\n+/).map(p => p.trim()).filter(Boolean)
+  return parts.length > 0 ? parts : [text]
+}
+
 interface IAnswerProps {
   item: ChatItem
   feedbackDisabled?: boolean
@@ -72,22 +79,38 @@ const Answer: FC<IAnswerProps> = ({
         <div className="shrink-0 w-8">
           {showAvatar && <AgentAvatar />}
         </div>
-        {/* Message bubble */}
-        <div className={`${s.answerWrap} max-w-[calc(85%-42px)] overflow-hidden`}>
+        {/* Message bubble(s) */}
+        <div className={`${s.answerWrap} max-w-[295px] overflow-hidden`}>
           <div className={`${s.answer} relative text-[15px] leading-6 tracking-[0.3px] font-medium`} style={{ color: 'rgba(0, 8, 16, 0.898)' }}>
-            <div className="px-3 py-[7px] bg-white rounded-2xl max-w-full overflow-hidden">
-              {(isResponding && (isAgentMode ? (!content && (agent_thoughts || []).filter(item => !!item.thought || !!item.tool).length === 0) : !content))
-                ? (
+            {(isResponding && (isAgentMode ? (!content && (agent_thoughts || []).filter(item => !!item.thought || !!item.tool).length === 0) : !content))
+              ? (
+                <div className="px-3 py-[7px] bg-white rounded-[16px]">
                   <div className="flex items-center justify-center w-6 h-5">
                     <LoadingAnim type="text" />
                   </div>
+                </div>
+              )
+              : isAgentMode
+                ? (
+                  <div className="px-3 py-[7px] bg-white rounded-[16px]">
+                    {agentModeAnswer}
+                  </div>
                 )
-                : (isAgentMode
-                  ? agentModeAnswer
+                : isResponding
+                  ? (
+                    <div className="px-3 py-[7px] bg-white rounded-[16px]">
+                      <StreamdownMarkdown content={content} />
+                    </div>
+                  )
                   : (
-                    <StreamdownMarkdown content={content} />
-                  ))}
-            </div>
+                    <div className="flex flex-col gap-2">
+                      {splitIntoParagraphs(content).map((para, i) => (
+                        <div key={i} className="px-3 py-[7px] bg-white rounded-[16px]">
+                          <StreamdownMarkdown content={para} />
+                        </div>
+                      ))}
+                    </div>
+                  )}
           </div>
         </div>
       </div>
